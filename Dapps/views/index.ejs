@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MyNFT App</title>
+  <!-- Add your custom CSS styles here -->
+</head>
+<body>
+  <h1>MyNFT App</h1>
+
+  <button id="mintButton">Mint NFT</button>
+
+  <form id="stakeForm">
+    <input type="text" id="tokenIdInput" placeholder="Enter Token ID">
+    <button type="submit">Stake Token</button>
+  </form>
+
+  <form id="unstakeForm">
+    <input type="text" id="tokenIdInput" placeholder="Enter Token ID">
+    <button type="submit">Unstake Token</button>
+  </form>
+
+  <!-- Add your JavaScript code here -->
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+  <script>
+    const contractABI = require('../build/contracts/MyNFT.json').abi;
+    const contractAddress = '0x1367444524e168c91af6Ef628b8fD08C0c815c90';
+    const contract = new web3.eth.Contract(contractABI, contractAddress);
+  
+    async function mintNFT() {
+      try {
+        const accounts = await web3.eth.getAccounts();
+        const result = await contract.methods.mintNFT().send({ from: accounts[0] });
+        console.log('NFT minted successfully');
+        console.log('Transaction hash:', result.transactionHash);
+      } catch (error) {
+        console.error('Error minting NFT:', error);
+      }
+    }
+  
+    async function stakeToken(tokenId) {
+      try {
+        const accounts = await web3.eth.getAccounts();
+        const result = await contract.methods.stakeToken(tokenId).send({ from: accounts[0] });
+        console.log('Token staked successfully');
+        console.log('Transaction hash:', result.transactionHash);
+      } catch (error) {
+        console.error('Error staking token:', error);
+      }
+    }
+  
+    async function unstakeToken(tokenId) {
+      try {
+        const accounts = await web3.eth.getAccounts();
+        const result = await contract.methods.unstakeToken(tokenId).send({ from: accounts[0] });
+        console.log('Token unstaked successfully');
+        console.log('Transaction hash:', result.transactionHash);
+      } catch (error) {
+        console.error('Error unstaking token:', error);
+      }
+    }
+  </script>
+</body>
+</html>
